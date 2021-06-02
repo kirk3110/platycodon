@@ -1,5 +1,6 @@
 package com.kirk3110.platycodon.repository;
 
+import com.kirk3110.platycodon.interceptor.PlusEncoderInterceptor;
 import com.kirk3110.platycodon.model.DiceRollResult;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +19,9 @@ public class DiceRollRepository {
     private RestOperations restOperations;
 
     public DiceRollRepository(RestTemplateBuilder restTemplateBuilder) {
-        this.restOperations = restTemplateBuilder.build();
+        this.restOperations = restTemplateBuilder
+            .interceptors(new PlusEncoderInterceptor())
+            .build();
     }
 
     public Optional<DiceRollResult> tryDiceRoll(String command) {
