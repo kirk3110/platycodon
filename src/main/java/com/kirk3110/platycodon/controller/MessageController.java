@@ -20,6 +20,8 @@ public class MessageController {
     @SendTo("/receive/messages")
     public List<Message> send(Message message) throws Exception {
         Thread.sleep(1000);
-        return this.messageService.analyzeMessage(message);
+        List<Message> messages = this.messageService.analyzeMessage(message);
+        this.messageService.saveMessages(messages);
+        return messages;
     }
 }
