@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>WebSocket Chat</title>
   <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -17,6 +17,22 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12">
+      <table id="conversation" class="table table-striped">
+        <thead>
+        <tr>
+          <th>Messages</th>
+        </tr>
+        </thead>
+        <tbody id="message">
+        <tr th:each="i : ${#numbers.sequence(savedMessages.size() - 1, 0, -1)}">
+          <td>[[${savedMessages[i].getName()}]]：[[${savedMessages[i].getStatement()}]]</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
       <form class="form-inline">
         <div class="form-group">
           <label for="name">Name</label>
@@ -28,19 +44,6 @@
         </div>
         <button id="send" class="btn btn-default" type="submit">Send</button>
       </form>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <table id="conversation" class="table table-striped">
-        <thead>
-        <tr>
-          <th>Messages</th>
-        </tr>
-        </thead>
-        <tbody id="message">
-        </tbody>
-      </table>
     </div>
   </div>
 </div>
