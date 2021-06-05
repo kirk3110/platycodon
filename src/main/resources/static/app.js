@@ -8,7 +8,6 @@ function setConnected(connected) {
   } else {
     $("#conversation").hide();
   }
-  $("#message").html("");
 }
 
 function connect() {
@@ -36,7 +35,11 @@ function disconnect() {
 
 function sendMessage() {
   stompClient.send("/send/message", {}, JSON.stringify(
-      {'name': $("#name").val(), 'statement': $("#statement").val()}));
+      {
+        'name': $("#name").val(),
+        'statement': $("#statement").val(),
+        'sentAt': new Date()
+      }));
   $("#statement").val('');
 }
 
