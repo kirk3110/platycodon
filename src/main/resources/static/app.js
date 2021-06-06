@@ -34,18 +34,20 @@ function disconnect() {
 }
 
 function sendMessage() {
-  stompClient.send("/send/message", {}, JSON.stringify(
-      {
-        'name': $("#name").val(),
-        'statement': $("#statement").val(),
-        'sentAt': new Date()
-      }));
+  if ($("#statement").val() !== '') {
+    stompClient.send("/send/message", {}, JSON.stringify(
+        {
+          'name': $("#name").val(),
+          'statement': $("#statement").val(),
+          'sentAt': new Date()
+        }));
+  }
   $("#statement").val('');
 }
 
 function showMessage(message) {
   $("#message").append(
-      "<tr><td>" + message.name + ": " + message.statement + "</td></tr>");
+      "<tr><td>" + message.name + "：" + message.statement + "</td></tr>");
 }
 
 $(function () {
