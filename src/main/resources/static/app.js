@@ -48,11 +48,6 @@ function showMessage(message) {
       "<tr><td>" + message.name + ": " + message.statement + "</td></tr>");
 }
 
-function setHeight() {
-  $("chat").style.height = $("chat").contentWindow.document.body.scrollHeight
-      + "px";
-}
-
 $(function () {
   $("form").on('submit', function (e) {
     e.preventDefault();
