@@ -13,8 +13,8 @@ import org.springframework.web.client.RestOperations;
 @Repository
 public class DiceRollRepository {
 
-    @Value("${platycodon.dicebot.url}")
-    private String dicebotUrl;
+    @Value("${platycodon.diceBot.url}")
+    private String diceBotUrl;
 
     private RestOperations restOperations;
 
@@ -28,7 +28,7 @@ public class DiceRollRepository {
         DiceRollResult diceRollResult;
         try {
             diceRollResult = this.restOperations
-                .getForObject(dicebotUrl + "?command=" + command, DiceRollResult.class);
+                .getForObject(diceBotUrl + "?command=" + command, DiceRollResult.class);
         } catch (HttpClientErrorException exception) {
             if (exception.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
                 return Optional.empty();
