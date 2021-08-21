@@ -2,18 +2,28 @@ body {
   background-color: #f5f5f5;
 }
 
-iframe {
-  border: none;
-  height: 100%;
+.scrollable {
+  overflow: scroll;
+  overflow-x: hidden;
 }
 
-#main-content {
-  width: 940px;
-  padding: 2em 3em;
-  margin: 0 auto 20px;
-  background-color: #ffffff;
-  border: 1px solid #e5e5e5;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+#map {
+  height: 70vh;
+}
+
+#chat {
+  height: 30vh;
+  position: relative;
+}
+
+#chat-messages {
+  height: calc(30vh - 80px);
+}
+
+#chat-form {
+  background-color: #f5f5f5;
+  position: absolute;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  bottom: 0px;
 }

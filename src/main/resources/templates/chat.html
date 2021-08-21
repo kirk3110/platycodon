@@ -7,42 +7,37 @@
   <script src="/webjars/jquery/jquery.min.js"></script>
   <script src="/webjars/sockjs-client/sockjs.min.js"></script>
   <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-  <script src="/app.js"></script>
+  <script src="/chat.js"></script>
 </head>
 <body>
-<noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies
-  on Javascript being
-  enabled. Please enable
-  Javascript and reload this page!</h2></noscript>
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-      <table id="conversation" class="table table-striped">
-        <thead>
-        <tr>
-          <th>Messages</th>
-        </tr>
-        </thead>
+<div class="container small">
+  <div class="row" id="map">
+    <p>map area</p>
+  </div>
+  <div class="row" id="chat">
+    <div id="chat-messages" class="scrollable">
+      <table class="table">
         <tbody id="message">
-        <tr th:each="i : ${#numbers.sequence(savedMessages.size() - 1, 0, -1)}">
-          <td>[[${savedMessages[i].getName()}]]：[[${savedMessages[i].getStatement()}]]</td>
+        <tr th:each="i : ${#numbers.sequence(props.savedMessages.size() - 1, 0, -1)}">
+          <td th:text="${props.savedMessages[i].getName()} + '：' + ${props.savedMessages[i].getStatement()}">
+          </td>
         </tr>
         </tbody>
       </table>
     </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12">
-      <form class="form-inline">
-        <div class="form-group">
-          <label for="name">Name</label>
-          <input type="text" id="name" class="form-control" placeholder="Your name here...">
+    <div id="chat-form">
+      <form class="row g-3">　
+        <div class="col-2">
+          <label for="name" class="visually-hidden">Name</label>
+          <input type="text" id="name" class="form-control" placeholder="発言者名">
         </div>
-        <div class="form-group">
-          <label for="name">Message</label>
-          <input type="text" id="statement" class="form-control" placeholder="Hello">
+        <div class="col-8">
+          <label for="statement" class="visually-hidden">Message</label>
+          <input type="text" id="statement" class="form-control" placeholder="発言を入力...">
         </div>
-        <button id="send" class="btn btn-default" type="submit">Send</button>
+        <div class="col-sm">
+          <button id="send" class="btn btn-primary" type="submit">送信</button>
+        </div>
       </form>
     </div>
   </div>
