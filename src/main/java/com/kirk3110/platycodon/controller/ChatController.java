@@ -19,16 +19,19 @@ public class ChatController {
 
     private ChatHelper chatHelper;
     private MessageService messageService;
+    private RoomService roomService;
 
     public ChatController(MessageService messageService, RoomService roomService,
         ChatHelper chatHelper) {
         this.messageService = messageService;
+        this.roomService = roomService;
         this.chatHelper = chatHelper;
     }
 
     @GetMapping("/chat/{roomId}")
     public String get(@PathVariable Integer roomId, Model model) {
         ChatProps props = chatHelper.makeChatProps(roomId, messageService.fetchMessages(roomId));
+        roomService.updateLastEnteredAt(roomId);
         model.addAttribute("props", props);
         return "chat";
     }
