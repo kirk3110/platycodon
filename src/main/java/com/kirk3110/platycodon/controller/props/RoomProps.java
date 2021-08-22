@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class ChatProps {
+public class RoomProps {
     Integer roomId;
     List<Message> savedMessages;
 }

@@ -1,7 +1,7 @@
 package com.kirk3110.platycodon.controller;
 
-import com.kirk3110.platycodon.controller.helper.ChatHelper;
-import com.kirk3110.platycodon.controller.props.ChatProps;
+import com.kirk3110.platycodon.controller.helper.RoomHelper;
+import com.kirk3110.platycodon.controller.props.RoomProps;
 import com.kirk3110.platycodon.model.Message;
 import com.kirk3110.platycodon.service.MessageService;
 import com.kirk3110.platycodon.service.RoomService;
@@ -15,25 +15,25 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-public class ChatController {
+public class RoomController {
 
-    private ChatHelper chatHelper;
+    private RoomHelper roomHelper;
     private MessageService messageService;
     private RoomService roomService;
 
-    public ChatController(MessageService messageService, RoomService roomService,
-        ChatHelper chatHelper) {
+    public RoomController(MessageService messageService, RoomService roomService,
+        RoomHelper roomHelper) {
         this.messageService = messageService;
         this.roomService = roomService;
-        this.chatHelper = chatHelper;
+        this.roomHelper = roomHelper;
     }
 
-    @GetMapping("/chat/{roomId}")
+    @GetMapping("/room/{roomId}")
     public String get(@PathVariable Integer roomId, Model model) {
-        ChatProps props = chatHelper.makeChatProps(roomId, messageService.fetchMessages(roomId));
+        RoomProps props = roomHelper.makeChatProps(roomId, messageService.fetchMessages(roomId));
         roomService.updateLastEnteredAt(roomId);
         model.addAttribute("props", props);
-        return "chat";
+        return "room";
     }
 
     @MessageMapping("/message/{roomId}")
