@@ -28,7 +28,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public List<Message> analyzeMessage(Message message) {
         List<Message> messages = new ArrayList<>(Arrays.asList(message));
-        this.diceRollRepository.tryDiceRoll(message.getStatement()).ifPresent(result -> {
+        this.diceRollRepository.tryDiceRoll(message.getUnescapedStatement()).ifPresent(result -> {
             messages.add(new Message("DiceBot", result.getText(), new Date()));
         });
         return messages;
