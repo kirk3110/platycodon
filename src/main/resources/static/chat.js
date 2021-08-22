@@ -28,7 +28,7 @@ function sendMessage(roomId) {
 }
 
 function showMessage(message) {
-  $("#message").append(
+  $("#chat-messages-table").append(
       "<tr style='color: " + message.color + ";'><td>"
       + message.name + "："
       + message.statement + "</td></tr>");
