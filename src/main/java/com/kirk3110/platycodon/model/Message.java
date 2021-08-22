@@ -17,10 +17,14 @@ public class Message {
     @NotEmpty
     private Date sentAt;
 
-    public Message(String name, String statement, Date sentAt) {
+    @Size(max = 7)
+    private String color;
+
+    public Message(String name, String statement, Date sentAt, String color) {
         this.name = HtmlUtils.htmlEscape(name);
         this.statement = HtmlUtils.htmlEscape(statement);
         this.sentAt = sentAt;
+        this.color = color;
     }
 
     public String getUnescapedName() {

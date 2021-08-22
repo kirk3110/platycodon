@@ -8,16 +8,16 @@ body {
 }
 
 #map {
-  height: 70vh;
+  height: 65vh;
 }
 
 #chat {
-  height: 30vh;
+  height: 35vh;
   position: relative;
 }
 
 #chat-messages {
-  height: calc(30vh - 80px);
+  height: calc(35vh - 130px);
 }
 
 #chat-form {
@@ -26,4 +26,8 @@ body {
   padding-top: 10px;
   padding-bottom: 30px;
   bottom: 0px;
+}
+
+.color-picker {
+
 }
