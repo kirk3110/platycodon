@@ -22,4 +22,12 @@ public class Message {
         this.statement = HtmlUtils.htmlEscape(statement);
         this.sentAt = sentAt;
     }
+
+    public String getUnescapedName() {
+        return HtmlUtils.htmlUnescape(this.name);
+    }
+
+    public String getUnescapedStatement() {
+        return HtmlUtils.htmlUnescape(this.statement);
+    }
 }
