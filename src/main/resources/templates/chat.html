@@ -19,7 +19,7 @@
       <table class="table">
         <tbody id="message">
         <tr th:each="i : ${#numbers.sequence(props.savedMessages.size() - 1, 0, -1)}">
-          <td th:text="${props.savedMessages[i].getName()} + '：' + ${props.savedMessages[i].getStatement()}">
+          <td th:text="${props.savedMessages[i].getUnescapedName()} + '：' + ${props.savedMessages[i].getUnescapedStatement()}">
           </td>
         </tr>
         </tbody>
