@@ -20,7 +20,8 @@ function sendMessage(roomId) {
         {
           'name': $("#name").val(),
           'statement': $("#statement").val(),
-          'sentAt': new Date()
+          'sentAt': new Date(),
+          'color': $("#color").val()
         }));
   }
   $("#statement").val('');
@@ -28,7 +29,9 @@ function sendMessage(roomId) {
 
 function showMessage(message) {
   $("#message").append(
-      "<tr><td>" + message.name + "：" + message.statement + "</td></tr>");
+      "<tr style='color: " + message.color + ";'><td>"
+      + message.name + "："
+      + message.statement + "</td></tr>");
   scrollMessagesToBottom();
 }
 

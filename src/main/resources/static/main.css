@@ -17,7 +17,7 @@ body {
 }
 
 #chat-messages {
-  height: calc(35vh - 150px);
+  height: calc(35vh - 130px);
 }
 
 #chat-form {

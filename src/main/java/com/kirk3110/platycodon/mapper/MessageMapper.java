@@ -12,6 +12,6 @@ public interface MessageMapper {
     @Select("SELECT * FROM message WHERE room_id = #{roomId} ORDER BY sent_at DESC LIMIT #{limit}")
     List<Message> findBy(Integer roomId, Integer limit);
 
-    @Insert("INSERT INTO message (name, statement, sent_at, room_id) VALUES (#{message.name}, #{message.statement}, #{message.sentAt}, #{roomId})")
+    @Insert("INSERT INTO message (name, statement, sent_at, color, room_id) VALUES (#{message.name}, #{message.statement}, #{message.sentAt}, #{message.color}, #{roomId})")
     void save(Message message, Integer roomId);
 }

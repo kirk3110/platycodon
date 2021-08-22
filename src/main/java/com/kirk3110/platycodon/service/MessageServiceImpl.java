@@ -29,7 +29,7 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> analyzeMessage(Message message) {
         List<Message> messages = new ArrayList<>(Arrays.asList(message));
         this.diceRollRepository.tryDiceRoll(message.getUnescapedStatement()).ifPresent(result -> {
-            messages.add(new Message("DiceBot", result.getText(), new Date()));
+            messages.add(new Message("DiceBot", result.getText(), new Date(), message.getColor()));
         });
         return messages;
     }

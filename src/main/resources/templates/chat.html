@@ -19,7 +19,8 @@
       <table class="table">
         <tbody id="message">
         <tr th:each="i : ${#numbers.sequence(props.savedMessages.size() - 1, 0, -1)}">
-          <td th:text="${props.savedMessages[i].getUnescapedName()} + '：' + ${props.savedMessages[i].getUnescapedStatement()}">
+          <td th:styleappend="${props.savedMessages[i].color != null} ? 'color: '+ ${props.savedMessages[i].color} +';'"
+              th:text="${props.savedMessages[i].getUnescapedName()} + '：' + ${props.savedMessages[i].getUnescapedStatement()}">
           </td>
         </tr>
         </tbody>
@@ -27,7 +28,7 @@
     </div>
     <div id="chat-form">
       <form>
-        <div class="row g-3 mb-3">
+        <div class="row g-2 mb-2">
           <div class="col-2">
             <label for="name" class="visually-hidden">Name</label>
             <input type="text" id="name" class="form-control form-control-sm" placeholder="発言者名">
@@ -40,7 +41,8 @@
         <div class="row g-3 mb-3">
           <div class="col-11">
             <label for="statement" class="visually-hidden">Message</label>
-            <input type="text" id="statement" class="form-control form-control-sm" placeholder="発言を入力...">
+            <input type="text" id="statement" class="form-control form-control-sm"
+                   placeholder="発言を入力...">
           </div>
           <div class="col">
             <button id="send" class="btn btn-primary" type="submit">送信</button>
