@@ -30,7 +30,8 @@ public class RoomController {
 
     @GetMapping("/room/{roomId}")
     public String get(@PathVariable Integer roomId, Model model) {
-        RoomProps props = roomHelper.makeChatProps(roomId, messageService.fetchMessages(roomId));
+        RoomProps props = roomHelper.makeRoomProps(roomId, messageService.fetchMessages(roomId),
+            roomService.selectById(roomId).getCharacterParams());
         roomService.updateLastEnteredAt(roomId);
         model.addAttribute("props", props);
         return "room";

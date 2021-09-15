@@ -12,6 +12,9 @@ public interface RoomMapper {
     @Select("SELECT * FROM room WHERE is_archived = false ORDER BY last_entered_at DESC LIMIT #{limit}")
     List<Room> findAll(Integer limit);
 
+    @Select("SELECT * FROM room WHERE room_id = #{roomID}")
+    Room findById(Integer roomID);
+
     @Update("UPDATE room SET last_entered_at = #{lastEnteredAt} WHERE room_id = #{roomId}")
     void updateLastEnteredAt(Integer roomId, Date lastEnteredAt);
 }

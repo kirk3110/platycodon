@@ -34,7 +34,7 @@ body {
 }
 
 #characters {
-  height: 100vh;
+  height: calc(100vh - 50px);
   font-size: 12px;
 }
 

@@ -7,5 +7,7 @@ public interface RoomService {
 
     List<Room> fetchRooms();
 
+    Room selectById(Integer roomId);
+
     void updateLastEnteredAt(Integer roomId);
 }

@@ -5,6 +5,7 @@
   <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="/main.css" rel="stylesheet">
   <script src="/webjars/jquery/jquery.min.js"></script>
+  <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
   <script src="/webjars/sockjs-client/sockjs.min.js"></script>
   <script src="/webjars/stomp-websocket/stomp.min.js"></script>
   <script src="/room.js"></script>
@@ -56,21 +57,64 @@
       </div>
     </div>
     <div class="col-2">
-      <div class="row xy-scrollable" id="characters">
-        <table class="table table-bordered">
-          <thead>
-          <tr>
-            <td>INI</td>
-            <td>修正値</td>
-            <td>名前</td>
-          </tr>
-          </thead>
-          <tbody id="characters-table">
-          <tr>
-            <td></td>
-          </tr>
-          </tbody>
-        </table>
+      <div class="row">
+        <div class="col">
+          <div class="row mt-2 mb-2">
+            <div class="col">
+              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#character-add-modal">
+                新規PC追加
+              </button>
+            </div>
+            <div class="modal fade small" id="character-add-modal" tabindex="-1"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">新規PC追加</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <div th:each="seq, stat : ${#numbers.sequence(1, props.characterParams.size())}"
+                         class="row g-3 mb-3 align-items-center">
+                      <div class="col-3">
+                        <label th:for="'characterParam'+${seq}" class="col-form-label"
+                               th:text="${props.characterParams[stat.index]}"></label>
+                      </div>
+                      <div class="col-9">
+                        <input type="text" th:id="'characterParam'+${seq}" class="form-control">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                    </button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="characters" class="xy-scrollable">
+            <table class="table table-bordered">
+              <thead>
+              <tr>
+                <td>INI</td>
+                <td>修正値</td>
+                <td>名前</td>
+              </tr>
+              </thead>
+              <tbody id="characters-table">
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
     </div>
   </div>

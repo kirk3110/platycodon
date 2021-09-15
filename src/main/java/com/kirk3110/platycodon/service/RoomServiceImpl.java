@@ -25,6 +25,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
+    public Room selectById(Integer roomId) {
+        return roomMapper.findById(roomId);
+    }
+
+    @Override
     public void updateLastEnteredAt(Integer roomId) {
         roomMapper.updateLastEnteredAt(roomId, new Date());
     }

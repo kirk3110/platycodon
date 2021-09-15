@@ -9,5 +9,6 @@ import lombok.Data;
 @Builder
 public class RoomProps {
     Integer roomId;
+    List<String> characterParams;
     List<Message> savedMessages;
 }
