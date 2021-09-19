@@ -3,6 +3,8 @@ package com.kirk3110.platycodon.controller;
 import com.kirk3110.platycodon.controller.helper.RoomHelper;
 import com.kirk3110.platycodon.controller.props.RoomProps;
 import com.kirk3110.platycodon.model.Message;
+import com.kirk3110.platycodon.model.Character;
+import com.kirk3110.platycodon.service.CharacterService;
 import com.kirk3110.platycodon.service.MessageService;
 import com.kirk3110.platycodon.service.RoomService;
 import java.util.List;
@@ -20,11 +22,13 @@ public class RoomController {
     private RoomHelper roomHelper;
     private MessageService messageService;
     private RoomService roomService;
+    private CharacterService characterService;
 
     public RoomController(MessageService messageService, RoomService roomService,
-        RoomHelper roomHelper) {
+        CharacterService characterService, RoomHelper roomHelper) {
         this.messageService = messageService;
         this.roomService = roomService;
+        this.characterService = characterService;
         this.roomHelper = roomHelper;
     }
 
@@ -39,11 +43,21 @@ public class RoomController {
 
     @MessageMapping("/message/{roomId}")
     @SendTo("/receive/messages/{roomId}")
-    public List<Message> receive(@DestinationVariable Integer roomId, Message message)
+    public List<Message> receiveMessage(@DestinationVariable Integer roomId, Message message)
         throws Exception {
         Thread.sleep(1000);
         List<Message> messages = this.messageService.analyzeMessage(message);
         this.messageService.saveMessages(messages, roomId);
         return messages;
+    }
+
+    @MessageMapping("/character/{roomId}")
+    @SendTo("/receive/character/{roomId}")
+    public Character receiveCharacter(@DestinationVariable Integer roomId,
+        Character character)
+        throws Exception {
+        Thread.sleep(1000);
+        this.characterService.putCharacter(character, roomId);
+        return character;
     }
 }

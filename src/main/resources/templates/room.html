@@ -49,7 +49,7 @@
                        placeholder="発言を入力...">
               </div>
               <div class="col">
-                <button id="send" class="btn btn-sm btn-primary" type="submit">送信</button>
+                <button id="send-message" class="btn btn-sm btn-primary" type="submit">送信</button>
               </div>
             </div>
           </form>
@@ -71,27 +71,45 @@
               <div class="modal-dialog">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">新規PC追加</h5>
+                    <h5 class="modal-title">新規PC追加</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                   </div>
-                  <div class="modal-body">
-                    <div th:each="seq, stat : ${#numbers.sequence(1, props.characterParams.size())}"
-                         class="row g-3 mb-3 align-items-center">
-                      <div class="col-3">
-                        <label th:for="'characterParam'+${seq}" class="col-form-label"
-                               th:text="${props.characterParams[stat.index]}"></label>
+                  <form>
+                    <input type="hidden" id="character-params-count" th:value="${props.characterParams.size()}">
+                    <div class="modal-body">
+                      <div class="row g-3 mb-3 align-items-center">
+                        <div class="col-3">
+                          <label for="character-name" class="col-form-label">名前</label>
+                        </div>
+                        <div class="col-9">
+                          <input type="text" id="character-name" class="form-control">
+                        </div>
+                        <div class="col-3">
+                          <label for="character-initiative" class="col-form-label">INI</label>
+                        </div>
+                        <div class="col-9">
+                          <input type="text" id="character-initiative" class="form-control">
+                        </div>
                       </div>
-                      <div class="col-9">
-                        <input type="text" th:id="'characterParam'+${seq}" class="form-control">
+                      <div th:each="seq, stat : ${#numbers.sequence(1, props.characterParams.size())}"
+                           class="row g-3 mb-3 align-items-center">
+                        <div class="col-3">
+                          <label th:for="'character-param-value'+${seq}" class="col-form-label"
+                                 th:text="${props.characterParams[stat.index]}"></label>
+                        </div>
+                        <div class="col-9">
+                          <input type="hidden" th:id="'character-param-name'+${seq}" th:value="${props.characterParams[stat.index]}">
+                          <input type="text" th:id="'character-param-value'+${seq}" class="form-control">
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
-                    </button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                  </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                      </button>
+                      <button type="button" class="btn btn-primary" id="send-character" data-bs-dismiss="modal">Save changes</button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
@@ -99,18 +117,10 @@
           <div id="characters" class="xy-scrollable">
             <table class="table table-bordered">
               <thead>
-              <tr>
                 <td>INI</td>
-                <td>修正値</td>
                 <td>名前</td>
-              </tr>
-              </thead>
+                <td th:each="paramName : ${props.characterParams}" th:text="${paramName}"></td>
               <tbody id="characters-table">
-              <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
               </tbody>
             </table>
           </div>
