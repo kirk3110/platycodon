@@ -1,5 +1,6 @@
 package com.kirk3110.platycodon.controller;
 
+import com.kirk3110.platycodon.controller.form.SendMessageForm;
 import com.kirk3110.platycodon.controller.helper.RoomHelper;
 import com.kirk3110.platycodon.controller.props.RoomProps;
 import com.kirk3110.platycodon.model.Message;
@@ -44,10 +45,10 @@ public class RoomController {
 
     @MessageMapping("/message/{roomId}")
     @SendTo("/receive/messages/{roomId}")
-    public List<Message> receiveMessage(@DestinationVariable Integer roomId, Message message)
+    public List<Message> receiveMessage(@DestinationVariable Integer roomId, SendMessageForm form)
         throws Exception {
         Thread.sleep(1000);
-        List<Message> messages = this.messageService.analyzeMessage(message);
+        List<Message> messages = this.messageService.analyzeMessage(roomHelper.toMessage(form));
         this.messageService.saveMessages(messages, roomId);
         return messages;
     }
