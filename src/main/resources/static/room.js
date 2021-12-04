@@ -1,8 +1,8 @@
-var stompClient = null;
+let stompClient = null;
 const roomId = location.href.split("/").pop();
 
 function connect(roomId) {
-  var socket = new SockJS('/websocket');
+  const socket = new SockJS('/websocket');
   stompClient = Stomp.over(socket);
   stompClient.connect({}, function () {
     stompClient.subscribe(`/receive/messages/${roomId}`, function (response) {
@@ -10,6 +10,10 @@ function connect(roomId) {
       for (const index in messages) {
         showMessage(messages[index]);
       }
+    });
+    stompClient.subscribe(`/receive/character/${roomId}`, function (response) {
+      const character = JSON.parse(response.body)
+      updateCharacter(character);
     });
   });
 }
@@ -42,12 +46,22 @@ function scrollMessagesToBottom() {
 function sendCharacter(roomId) {
   let characterParams = {};
   for (let i = 0; i < $("#character-params-count").val(); i++) {
-    characterParams[$(`#character-param-name${i+1}`).val()] = $(`#character-param-value${i+1}`).val();
+    const paramName = $(`#character-param-name${i + 1}`).val();
+    const param = $(`#character-param-value${i + 1}`).val();
+    if (paramName[0] !== "*") {
+      characterParams[paramName] = param;
+    } else {
+      if (param === "on") {
+        characterParams[paramName] = "1";
+      } else {
+        characterParams[paramName] = "0";
+      }
+    }
   }
 
   stompClient.send(`/send/character/${roomId}`, {}, JSON.stringify(
       {
-        'character_id': $("#character-id").val(),
+        'characterId': $("#character-id").val(),
         'name': $("#character-name").val(),
         'initiative': $("#character-initiative").val(),
         'params': JSON.stringify(characterParams)
@@ -58,8 +72,34 @@ function sendCharacter(roomId) {
   $("#character-name").val('');
   $("#character-initiative").val('');
   for (let i = 0; i < $("#character-params-count").val(); i++) {
-    $(`#character-param-value${i+1}`).val('');
+    $(`#character-param-value${i + 1}`).val('');
   }
+}
+
+function updateCharacter(character) {
+  let characterParamsRow = `<tr id="character${character.characterId}">`
+      + "<td>" + character.initiative + "</td>"
+      + "<td>" + character.name + "</td>";
+  const characterParams = JSON.parse(character.params);
+  for (let i = 0; i < $("#character-params-count").val(); i++) {
+    const paramName = $(`#character-param-name${i + 1}`).val();
+    if (paramName[0] !== "*") {
+      characterParamsRow += "<td>" + characterParams[paramName] + "</td>";
+    } else {
+      if (characterParams[paramName] === "1") {
+        characterParamsRow += "<td>■</td>";
+      } else {
+        characterParamsRow += "<td></td>";
+      }
+    }
+
+  }
+  characterParamsRow += "</tr>";
+
+  if (typeof $(`#character${character.characterId}`) !== "undefined") {
+    $("#characters-table").remove($(`#character${character.characterId}`))
+  }
+  $("#characters-table").append(characterParamsRow);
 }
 
 setTimeout("connect(roomId)", 1000);

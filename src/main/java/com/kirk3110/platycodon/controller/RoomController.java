@@ -13,6 +13,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
@@ -53,8 +54,7 @@ public class RoomController {
 
     @MessageMapping("/character/{roomId}")
     @SendTo("/receive/character/{roomId}")
-    public Character receiveCharacter(@DestinationVariable Integer roomId,
-        Character character)
+    public Character receiveCharacter(@DestinationVariable Integer roomId, Character character)
         throws Exception {
         Thread.sleep(1000);
         this.characterService.putCharacter(character, roomId);
