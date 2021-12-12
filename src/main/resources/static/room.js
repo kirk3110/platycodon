@@ -64,7 +64,7 @@ function sendCharacter(roomId) {
         'characterId': $("#character-id").val(),
         'name': $("#character-name").val(),
         'initiative': $("#character-initiative").val(),
-        'params': JSON.stringify(characterParams)
+        'params': characterParams
       }
   ));
 
@@ -80,13 +80,12 @@ function updateCharacter(character) {
   let characterParamsRow = `<tr id="character${character.characterId}">`
       + "<td>" + character.initiative + "</td>"
       + "<td>" + character.name + "</td>";
-  const characterParams = JSON.parse(character.params);
   for (let i = 0; i < $("#character-params-count").val(); i++) {
     const paramName = $(`#character-param-name${i + 1}`).val();
     if (paramName[0] !== "*") {
-      characterParamsRow += "<td>" + characterParams[paramName] + "</td>";
+      characterParamsRow += "<td>" + character.params[paramName] + "</td>";
     } else {
-      if (characterParams[paramName] === "1") {
+      if (character.params[paramName] === "1") {
         characterParamsRow += "<td>■</td>";
       } else {
         characterParamsRow += "<td></td>";

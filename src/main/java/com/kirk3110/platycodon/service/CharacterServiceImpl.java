@@ -1,20 +1,20 @@
 package com.kirk3110.platycodon.service;
 
-import com.kirk3110.platycodon.mapper.CharacterMapper;
 import com.kirk3110.platycodon.model.Character;
+import com.kirk3110.platycodon.repository.CharacterRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CharacterServiceImpl implements CharacterService {
 
-    private CharacterMapper characterMapper;
+    private CharacterRepository characterRepository;
 
-    public CharacterServiceImpl(CharacterMapper characterMapper) {
-        this.characterMapper = characterMapper;
+    public CharacterServiceImpl(CharacterRepository characterRepository) {
+        this.characterRepository = characterRepository;
     }
 
     @Override
     public void putCharacter(Character character, Integer roomId) {
-        characterMapper.insertCharacter(character, roomId);
+        characterRepository.insertCharacter(character, roomId);
     }
 }

@@ -6,5 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface CharacterMapper {
-    void insertCharacter(@Param("character") Character character, @Param("roomId")Integer roomId);
+
+    void insertCharacter(@Param("character") Character character,
+        @Param("params") String characterParams, @Param("roomId") Integer roomId);
 }

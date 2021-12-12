@@ -15,7 +15,7 @@
         (
          #{character.name},
          #{character.initiative},
-         #{character.params},
+         #{params},
          #{roomId}
          )
   </insert>
