@@ -1,5 +1,6 @@
 package com.kirk3110.platycodon.controller;
 
+import com.kirk3110.platycodon.controller.form.SendCharacterForm;
 import com.kirk3110.platycodon.controller.form.SendMessageForm;
 import com.kirk3110.platycodon.controller.helper.RoomHelper;
 import com.kirk3110.platycodon.controller.props.RoomProps;
@@ -55,10 +56,10 @@ public class RoomController {
 
     @MessageMapping("/character/{roomId}")
     @SendTo("/receive/character/{roomId}")
-    public Character receiveCharacter(@DestinationVariable Integer roomId, Character character)
+    public Character receiveCharacter(@DestinationVariable Integer roomId, SendCharacterForm form)
         throws Exception {
         Thread.sleep(1000);
-        this.characterService.putCharacter(character, roomId);
-        return character;
+        this.characterService.putCharacter(roomHelper.toCharacter(form), roomId);
+        return roomHelper.toCharacter(form);
     }
 }

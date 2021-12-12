@@ -1,7 +1,9 @@
 package com.kirk3110.platycodon.controller.helper;
 
+import com.kirk3110.platycodon.controller.form.SendCharacterForm;
 import com.kirk3110.platycodon.controller.form.SendMessageForm;
 import com.kirk3110.platycodon.controller.props.RoomProps;
+import com.kirk3110.platycodon.model.Character;
 import com.kirk3110.platycodon.model.Message;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +28,15 @@ public class RoomHelper {
             HtmlUtils.htmlEscape(sendMessageForm.getStatement()),
             sendMessageForm.getSentAt(),
             sendMessageForm.getColor()
+        );
+    }
+
+    public Character toCharacter(SendCharacterForm sendCharacterForm) {
+        return new Character(
+            sendCharacterForm.getCharacterId(),
+            sendCharacterForm.getName(),
+            sendCharacterForm.getParams(),
+            sendCharacterForm.getInitiative()
         );
     }
 }
