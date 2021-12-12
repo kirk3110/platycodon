@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kirk3110.platycodon.mapper.CharacterMapper">
+  <insert id="insertCharacter">
+    INSERT INTO platycodon.character
+        (
+         name,
+         initiative,
+         params,
+         room_id
+         )
+    VALUES
+        (
+         #{character.name},
+         #{character.initiative, javaType=Integer, jdbcType=NUMERIC},
+         #{params},
+         #{roomId, javaType=Integer, jdbcType=NUMERIC}
+         )
+  </insert>
+
+  <select id="selectByRoomId" resultType="com.kirk3110.platycodon.repository.result.SelectCharacterResult">
+    SELECT
+        character_id,
+        name,
+        params,
+        initiative
+    FROM
+        platycodon.character
+    WHERE
+        room_id = #{roomId, javaType=Integer, jdbcType=NUMERIC}
+    ORDER BY
+        initiative DESC
+    LIMIT
+        #{limit, javaType=Integer, jdbcType=NUMERIC}
+  </select>
+</mapper>

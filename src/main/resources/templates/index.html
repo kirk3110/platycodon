@@ -18,13 +18,13 @@
   <div class="row small">
     <table class="table table-striped">
       <thead>
-        <tr>
-          <td>ID</td>
-          <td>部屋名</td>
-          <td>ダイスボット</td>
-          <td>最終入室日時</td>
-          <td>入室</td>
-        </tr>
+      <tr>
+        <td>ID</td>
+        <td>部屋名</td>
+        <td>ダイスボット</td>
+        <td>最終入室日時</td>
+        <td>入室</td>
+      </tr>
       </thead>
       <tbody>
       <tr th:each="room : ${props.roomList}">
@@ -32,7 +32,7 @@
         <td th:text="${room.name}"></td>
         <td th:text="${room.diceBot}"></td>
         <td th:text="${#dates.format(room.lastEnteredAt, 'yyyy/MM/dd HH:mm:ss')}"></td>
-        <td><a class="btn btn-primary" th:href="'chat/' + ${room.roomId}">入室</a></td>
+        <td><a class="btn btn-primary" th:href="'room/' + ${room.roomId}">入室</a></td>
       </tr>
       </tbody>
     </table>

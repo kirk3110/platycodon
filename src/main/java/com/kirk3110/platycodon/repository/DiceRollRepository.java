@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestOperations;
+import org.springframework.web.util.HtmlUtils;
 
 @Repository
 public class DiceRollRepository {
@@ -29,6 +30,7 @@ public class DiceRollRepository {
         try {
             diceRollResult = this.restOperations
                 .getForObject(diceBotUrl + "?command=" + command, DiceRollResult.class);
+            diceRollResult.setText(HtmlUtils.htmlEscape(diceRollResult.getText()));
         } catch (HttpClientErrorException exception) {
             if (exception.getStatusCode().equals(HttpStatus.BAD_REQUEST)) {
                 return Optional.empty();

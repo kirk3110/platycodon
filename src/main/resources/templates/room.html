@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>WebSocket Chat</title>
+  <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/main.css" rel="stylesheet">
+  <script src="/webjars/jquery/jquery.min.js"></script>
+  <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+  <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+  <script src="/room.js"></script>
+</head>
+<body>
+<div class="container-fluid small">
+  <div class="row">
+    <div class="col-10">
+      <div class="row" id="map">
+        <p>map area</p>
+      </div>
+      <div class="row" id="chat">
+        <div id="chat-messages" class="y-scrollable">
+          <table class="table">
+            <tbody id="chat-messages-table">
+            <tr th:each="i : ${#numbers.sequence(props.savedMessages.size() - 1, 0, -1)}">
+              <td th:styleappend="${props.savedMessages[i].color != null} ? 'color: '+ ${props.savedMessages[i].color} +';'"
+                  th:text="${props.savedMessages[i].getUnescapedName()} + '：' + ${props.savedMessages[i].getUnescapedStatement()}">
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="chat-form">
+          <form>
+            <div class="row g-2 mb-2">
+              <div class="col-2">
+                <label for="name" class="visually-hidden">Name</label>
+                <input type="text" id="name" class="form-control form-control-sm"
+                       placeholder="発言者名">
+              </div>
+              <div class="col-1">
+                <label for="name" class="visually-hidden">Color</label>
+                <input type="color" id="color" class="form-control form-control-sm">
+              </div>
+            </div>
+            <div class="row g-3 mb-3">
+              <div class="col-11">
+                <label for="statement" class="visually-hidden">Message</label>
+                <input type="text" id="statement" class="form-control form-control-sm"
+                       placeholder="発言を入力...">
+              </div>
+              <div class="col">
+                <button id="send-message" class="btn btn-sm btn-primary" type="submit">送信</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="row">
+        <div class="col">
+          <div class="row mt-2 mb-2">
+            <div class="col">
+              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                      data-bs-target="#character-add-modal">
+                新規PC追加
+              </button>
+            </div>
+            <div class="modal fade small" id="character-add-modal" tabindex="-1"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">新規PC追加</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                  </div>
+                  <form>
+                    <input type="hidden" id="character-params-count" th:value="${props.characterParams.size()}">
+                    <div class="modal-body">
+                      <div class="row g-3 mb-3 align-items-center">
+                        <div class="col-3">
+                          <label for="character-name" class="col-form-label">名前</label>
+                        </div>
+                        <div class="col-9">
+                          <input type="text" id="character-name" class="form-control">
+                        </div>
+                        <div class="col-3">
+                          <label for="character-initiative" class="col-form-label">INI</label>
+                        </div>
+                        <div class="col-9">
+                          <input type="number" id="character-initiative" class="form-control">
+                        </div>
+                      </div>
+                      <div th:each="seq, stat : ${#numbers.sequence(1, props.characterParams.size())}"
+                           class="row g-3 mb-3 align-items-center">
+                        <div class="col-3">
+                          <label th:for="'character-param-value'+${seq}" class="col-form-label"
+                                 th:text="${props.characterParams[stat.index]}"></label>
+                        </div>
+                        <div class="col-9">
+                          <input type="hidden" th:id="'character-param-name'+${seq}" th:value="${props.characterParams[stat.index]}">
+                          <input type="checkbox" th:if="${props.characterParams[stat.index][0] == '*'}" th:id="'character-param-value'+${seq}" class="form-check-input">
+                          <input type="number" th:if="${props.characterParams[stat.index][0] != '*'}" th:id="'character-param-value'+${seq}" class="form-control">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                      </button>
+                      <button type="button" class="btn btn-primary" id="send-character" data-bs-dismiss="modal">Save changes</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="characters" class="xy-scrollable">
+            <table class="table table-bordered">
+              <thead>
+                <td>INI</td>
+                <td>名前</td>
+                <td th:each="paramName : ${props.characterParams}" th:text="${paramName}"></td>
+              <tbody id="characters-table">
+                <tr th:each="character: ${props.savedCharacters}">
+                  <td th:text="${character.initiative}"/>
+                  <td th:text="${character.name}"/>
+                  <td th:each="paramName : ${props.characterParams}">
+                    <span th:if="${!paramName.startsWith('*')}" th:text="${character.params.get(paramName)}" />
+                    <span th:if="${paramName.startsWith('*')}" th:text="${character.params.get(paramName) ? '■' : ''}" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
