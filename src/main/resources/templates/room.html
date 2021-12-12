@@ -100,7 +100,7 @@
                         </div>
                         <div class="col-9">
                           <input type="hidden" th:id="'character-param-name'+${seq}" th:value="${props.characterParams[stat.index]}">
-                          <input type="checkbox" th:if="${props.characterParams[stat.index][0] == '*'}" th:id="'character-param-value'+${seq}" class="form-check-input" value="off">
+                          <input type="checkbox" th:if="${props.characterParams[stat.index][0] == '*'}" th:id="'character-param-value'+${seq}" class="form-check-input">
                           <input type="number" th:if="${props.characterParams[stat.index][0] != '*'}" th:id="'character-param-value'+${seq}" class="form-control">
                         </div>
                       </div>
@@ -127,7 +127,7 @@
                   <td th:text="${character.name}"/>
                   <td th:each="paramName : ${props.characterParams}">
                     <span th:if="${!paramName.startsWith('*')}" th:text="${character.params.get(paramName)}" />
-                    <span th:if="${paramName.startsWith('*')}" th:text="${character.params.get(paramName)} ? '■' : ''" />
+                    <span th:if="${paramName.startsWith('*')}" th:text="${character.params.get(paramName) ? '■' : ''}" />
                   </td>
                 </tr>
               </tbody>
