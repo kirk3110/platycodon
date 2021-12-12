@@ -77,28 +77,42 @@ function sendCharacter(roomId) {
 }
 
 function updateCharacter(character) {
-  let characterParamsRow = `<tr id="character${character.characterId}">`
+  let characterRow = `<tr id="character${character.characterId}">`
       + "<td>" + character.initiative + "</td>"
       + "<td>" + character.name + "</td>";
   for (let i = 0; i < $("#character-params-count").val(); i++) {
     const paramName = $(`#character-param-name${i + 1}`).val();
     if (paramName[0] !== "*") {
-      characterParamsRow += "<td>" + character.params[paramName] + "</td>";
+      characterRow += "<td>" + character.params[paramName] + "</td>";
     } else {
       if (character.params[paramName] === "1") {
-        characterParamsRow += "<td>■</td>";
+        characterRow += "<td>■</td>";
       } else {
-        characterParamsRow += "<td></td>";
+        characterRow += "<td></td>";
       }
     }
 
   }
-  characterParamsRow += "</tr>";
+  characterRow += "</tr>";
 
   if (typeof $(`#character${character.characterId}`) !== "undefined") {
     $("#characters-table").remove($(`#character${character.characterId}`))
   }
-  $("#characters-table").append(characterParamsRow);
+  insertIntoCharacterTable(characterRow, character.initiative);
+}
+
+function insertIntoCharacterTable(characterRow, initiative) {
+  let inserted = false;
+  $("#characters-table tr").each(function (index, element) {
+    if(Number(initiative) > Number($(element).find("td").eq(0).text())) {
+      $(element).before(characterRow);
+      inserted = true;
+      return false;
+    }
+  });
+  if (!inserted) {
+    $("#characters-table").append(characterRow);
+  }
 }
 
 setTimeout("connect(roomId)", 1000);
