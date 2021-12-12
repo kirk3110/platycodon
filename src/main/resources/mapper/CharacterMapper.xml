@@ -14,9 +14,25 @@
     VALUES
         (
          #{character.name},
-         #{character.initiative},
+         #{character.initiative, javaType=Integer, jdbcType=NUMERIC},
          #{params},
-         #{roomId}
+         #{roomId, javaType=Integer, jdbcType=NUMERIC}
          )
   </insert>
+
+  <select id="selectByRoomId" resultType="com.kirk3110.platycodon.repository.result.SelectCharacterResult">
+    SELECT
+        character_id,
+        name,
+        params,
+        initiative
+    FROM
+        platycodon.character
+    WHERE
+        room_id = #{roomId, javaType=Integer, jdbcType=NUMERIC}
+    ORDER BY
+        initiative DESC
+    LIMIT
+        #{limit, javaType=Integer, jdbcType=NUMERIC}
+  </select>
 </mapper>

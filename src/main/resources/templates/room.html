@@ -122,6 +122,14 @@
                 <td>名前</td>
                 <td th:each="paramName : ${props.characterParams}" th:text="${paramName}"></td>
               <tbody id="characters-table">
+                <tr th:each="character: ${props.savedCharacters}">
+                  <td th:text="${character.initiative}"/>
+                  <td th:text="${character.name}"/>
+                  <td th:each="paramName : ${props.characterParams}">
+                    <span th:if="${!paramName.startsWith('*')}" th:text="${character.params.get(paramName)}" />
+                    <span th:if="${paramName.startsWith('*')}" th:text="${character.params.get(paramName)} ? '■' : ''" />
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>

@@ -14,11 +14,12 @@ import org.springframework.web.util.HtmlUtils;
 public class RoomHelper {
 
     public RoomProps makeRoomProps(Integer roomId, List<Message> savedMessages,
-        String characterParamsStr) {
+        List<Character> savedCharacters, String characterParamsStr) {
         return RoomProps.builder()
             .roomId(roomId)
-            .characterParams(Arrays.asList(characterParamsStr.split("\\s")))
             .savedMessages(savedMessages)
+            .savedCharacters(savedCharacters)
+            .characterParams(Arrays.asList(characterParamsStr.split("\\s")))
             .build();
     }
 
